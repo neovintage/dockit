@@ -1,0 +1,33 @@
+# Node modules
+node_modules/
+
+# Compiled output
+dist/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build tools
+.nyc_output/
+coverage/
+.eslintcache
+
+# Local env files (optional but recommended to ignore)
+.env
+.env.*
+
+# Local user config (e.g. Dockit runtime config)
+.dockitrc.json
+
+# Binaries
+dockit
+dockit-*          # binaries from nexe: macos, linux, win
+
+# MacOS system files
+.DS_Store
+
+# pkg/nexe build caches (optional)
+.nexe/
+.pkg-cache/

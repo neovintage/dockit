@@ -1,0 +1,44 @@
+{
+  "name": "dockit",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "npx ts-node src/index.ts",
+    "prepare": "npm run build"
+  },
+  "bin": {
+    "dockit": "dist/index.js"
+  },
+  "pkg": {
+    "scripts": "dist/index.js",
+    "assets": "dist/**/*",
+    "targets": [
+      "node22-macos"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.772.0",
+    "@aws-sdk/lib-storage": "^3.772.0",
+    "@inquirer/prompts": "^7.4.0",
+    "chalk": "^5.4.1",
+    "cli-progress": "^3.12.0",
+    "commander": "^13.1.0",
+    "compromise": "^14.14.4",
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.4.7",
+    "globby": "^14.1.0"
+  },
+  "devDependencies": {
+    "@types/cli-progress": "^3.11.6",
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "^22.13.11",
+    "nexe": "^5.0.0-beta.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  }
+}
