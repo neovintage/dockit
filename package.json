@@ -5,6 +5,7 @@
   "scripts": {
     "build": "tsc",
     "start": "npx ts-node src/index.ts",
+    "compile": "npx nexe dist/index.js -o dockit --build",
     "prepare": "npm run build"
   },
   "bin": {
