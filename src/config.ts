@@ -38,6 +38,10 @@ export function loadConfig(): DockitConfig {
     region: process.env.AWS_REGION || fileConfig.region || "us-west-2",
     dryRunDefault: fileConfig.dryRunDefault ?? true,
     enableNlpTagging: fileConfig.enableNlpTagging ?? true,
+    awsAccessKeyId:
+      fileConfig.awsAccessKeyId || process.env.AWS_ACCESS_KEY_ID || "",
+    awsSecretAccessKey:
+      fileConfig.awsSecretAccessKey || process.env.AWS_SECRET_ACCESS_KEY || "",
   };
 
   return cachedConfig;
@@ -49,8 +53,8 @@ export function createConfigFile() {
     region: "us-west-2",
     dryRunDefault: true,
     enableNlpTagging: true,
-    awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    awsSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
+    awsSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
   };
 
   try {

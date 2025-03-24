@@ -11,6 +11,7 @@ import { loadConfig, createConfigFile } from "./config.js";
 import { autoTag } from "./tag-helper.js";
 import { uploadWithProgress } from "./upload.js";
 import { S3Client } from "@aws-sdk/client-s3";
+import type { AwsCredentialIdentity } from "@aws-sdk/types";
 
 // Slugify helper
 function slugify(input: string): string {
@@ -28,7 +29,17 @@ function validateDate(input: string): true | string {
 }
 
 const config = loadConfig();
-const s3 = new S3Client({ region: config.region });
+const credentials: AwsCredentialIdentity = {
+  accessKeyId: config.awsAccessKeyId!,
+  secretAccessKey: config.awsSecretAccessKey!,
+};
+
+console.log(credentials);
+
+const s3 = new S3Client({
+  region: config.region,
+  credentials: credentials,
+});
 
 function extractDateFromFilename(filename: string): string | null {
   const match = filename.match(/\d{4}-\d{2}-\d{2}/);
@@ -40,9 +51,6 @@ function extractDateFromFilename(filename: string): string | null {
 
 const uploadCommand = async (argv: any) => {
   try {
-    const config = loadConfig();
-    const s3 = new S3Client({ region: config.region });
-
     const globInput = await input({
       message: "Enter file paths or globs (e.g. scans/*.pdf):",
     });
