@@ -12,6 +12,8 @@ export interface DockitConfig {
   region?: string;
   dryRunDefault?: boolean;
   enableNlpTagging?: boolean;
+  awsAccessKeyId?: string;
+  awsSecretAccessKey?: string;
 }
 
 let cachedConfig: DockitConfig | null = null;
@@ -35,8 +37,26 @@ export function loadConfig(): DockitConfig {
       "your-default-bucket",
     region: process.env.AWS_REGION || fileConfig.region || "us-west-2",
     dryRunDefault: fileConfig.dryRunDefault ?? true,
-    enableNlpTagging: fileConfig.enableNlpTagging ?? false,
+    enableNlpTagging: fileConfig.enableNlpTagging ?? true,
   };
 
   return cachedConfig;
+}
+
+export function createConfigFile() {
+  const defaultConfig: DockitConfig = {
+    defaultBucket: "your-default-bucket",
+    region: "us-west-2",
+    dryRunDefault: true,
+    enableNlpTagging: true,
+    awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    awsSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  };
+
+  try {
+    fs.writeFileSync(CONFIG_PATH, JSON.stringify(defaultConfig, null, 2));
+    console.log(`Created default config file at ${CONFIG_PATH}`);
+  } catch (e) {
+    console.error(`Failed to create config file: ${e}`);
+  }
 }

@@ -11,7 +11,6 @@ export function autoTag(fileName: string, useNLP: boolean = false): string[] {
     kaiser: "kaiser",
     w2: "tax",
     "1099": "tax",
-    statement: "finance",
     benefit: "insurance",
   };
 
@@ -24,7 +23,7 @@ export function autoTag(fileName: string, useNLP: boolean = false): string[] {
   let nlpTags: string[] = [];
   if (useNLP) {
     const doc = nlp(fileName);
-    nlpTags = (doc.nouns().out("array") as string[]).map((s) =>
+    nlpTags = (doc.terms().out("array") as string[]).map((s) =>
       s.toLowerCase(),
     );
   }

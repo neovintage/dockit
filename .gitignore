@@ -31,3 +31,6 @@ dockit-*          # binaries from nexe: macos, linux, win
 # pkg/nexe build caches (optional)
 .nexe/
 .pkg-cache/
+
+# Local user files for Dockit
+files/

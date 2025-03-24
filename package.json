@@ -31,12 +31,14 @@
     "compromise": "^14.14.4",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
-    "globby": "^14.1.0"
+    "globby": "^14.1.0",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@types/cli-progress": "^3.11.6",
     "@types/inquirer": "^9.0.7",
     "@types/node": "^22.13.11",
+    "@types/yargs": "^17.0.33",
     "nexe": "^5.0.0-beta.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
