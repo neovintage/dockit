@@ -4,19 +4,11 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "npx ts-node src/index.ts",
-    "compile": "npx nexe dist/index.js -o dockit --build",
-    "prepare": "npm run build"
+    "package": "npm run build && npm run package:binary",
+    "package:binary": "npx nexe dist/index.js -o dockit --build --name dockit  --resource './dist/**/*.js' --resource './node_modules/@inquirer/**' --resource './node_modules/cli-progress/**' --resource './node_modules/compromise/**' --resource './node_modules/globby/**' --resource './node_modules/dotenv/**'       --resource './node_modules/date-fns/**'       --resource './node_modules/@aws-sdk/**' --resource './node_modules/yargs/**'"
   },
   "bin": {
     "dockit": "dist/index.js"
-  },
-  "pkg": {
-    "scripts": "dist/index.js",
-    "assets": "dist/**/*",
-    "targets": [
-      "node22-macos"
-    ]
   },
   "keywords": [],
   "author": "",

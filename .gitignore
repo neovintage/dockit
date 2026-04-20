@@ -34,3 +34,4 @@ dockit-*          # binaries from nexe: macos, linux, win
 
 # Local user files for Dockit
 files/
+NOTES.md

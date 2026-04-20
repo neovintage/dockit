@@ -34,8 +34,6 @@ const credentials: AwsCredentialIdentity = {
   secretAccessKey: config.awsSecretAccessKey!,
 };
 
-console.log(credentials);
-
 const s3 = new S3Client({
   region: config.region,
   credentials: credentials,
@@ -146,7 +144,8 @@ yargs(hideBin(process.argv))
     },
     createConfigFile,
   )
-  .demandCommand(1, "You must specify a command")
+  .demandCommand(1, "❌ Error: You must specify a command")
+  .showHelpOnFail(false)
   .example("$0 upload", "Start the interactive document upload process")
   .example(
     "$0 upload --dry-run",
@@ -159,6 +158,7 @@ yargs(hideBin(process.argv))
   .fail((msg, err, yargs) => {
     if (err?.name !== "ExitPromptError") {
       console.error("❌ Error:", err);
+      yargs.showHelp();
       process.exit(1);
     } else {
       console.log("\n👋 Operation cancelled by user");
