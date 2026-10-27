@@ -8,6 +8,7 @@ export async function uploadWithProgress(
   bucket: string,
   key: string,
   filePath: string,
+  contentType: string,
 ) {
   const fileStream = fs.createReadStream(filePath);
   const fileSize = fs.statSync(filePath).size;
@@ -28,7 +29,7 @@ export async function uploadWithProgress(
       Bucket: bucket,
       Key: key,
       Body: fileStream,
-      ContentType: "application/pdf",
+      ContentType: contentType,
     },
   });
 

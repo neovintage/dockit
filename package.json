@@ -4,8 +4,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "package": "npm run build && npm run package:binary",
-    "package:binary": "npx nexe dist/index.js -o dockit --build --name dockit  --resource './dist/**/*.js' --resource './node_modules/@inquirer/**' --resource './node_modules/cli-progress/**' --resource './node_modules/compromise/**' --resource './node_modules/globby/**' --resource './node_modules/dotenv/**'       --resource './node_modules/date-fns/**'       --resource './node_modules/@aws-sdk/**' --resource './node_modules/yargs/**'"
+    "start": "node dist/index.js"
   },
   "bin": {
     "dockit": "dist/index.js"
@@ -17,10 +16,11 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.772.0",
     "@aws-sdk/lib-storage": "^3.772.0",
+    "@aws-sdk/types": "^3.772.0",
+    "@inquirer/input": "^4.1.0",
     "@inquirer/prompts": "^7.4.0",
     "chalk": "^5.4.1",
     "cli-progress": "^3.12.0",
-    "commander": "^13.1.0",
     "compromise": "^14.14.4",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
@@ -29,10 +29,8 @@
   },
   "devDependencies": {
     "@types/cli-progress": "^3.11.6",
-    "@types/inquirer": "^9.0.7",
     "@types/node": "^22.13.11",
     "@types/yargs": "^17.0.33",
-    "nexe": "^5.0.0-beta.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   }

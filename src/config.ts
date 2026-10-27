@@ -5,7 +5,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 const HOME = process.env.HOME || process.env.USERPROFILE || "";
-const CONFIG_PATH = path.join(HOME, ".dockitrc.json");
+const DEFAULT_CONFIG_PATH = path.join(HOME, ".dockitrc.json");
+export const PLACEHOLDER_BUCKET = "your-default-bucket";
 
 export interface DockitConfig {
   defaultBucket?: string;
@@ -16,40 +17,40 @@ export interface DockitConfig {
   awsSecretAccessKey?: string;
 }
 
-let cachedConfig: DockitConfig | null = null;
-
-export function loadConfig(): DockitConfig {
-  if (cachedConfig) return cachedConfig;
+export function loadConfig(configPath?: string): DockitConfig {
+  const resolvedPath = configPath
+    ? path.resolve(configPath)
+    : DEFAULT_CONFIG_PATH;
 
   let fileConfig: DockitConfig = {};
-  if (fs.existsSync(CONFIG_PATH)) {
+  if (fs.existsSync(resolvedPath)) {
     try {
-      fileConfig = JSON.parse(fs.readFileSync(CONFIG_PATH, "utf-8"));
+      fileConfig = JSON.parse(fs.readFileSync(resolvedPath, "utf-8"));
     } catch (e) {
-      console.warn("⚠️ Failed to parse ~/.dockitrc.json");
+      console.warn(`⚠️ Failed to parse ${resolvedPath}`);
     }
+  } else if (configPath) {
+    console.warn(`⚠️ Config file not found: ${resolvedPath}`);
   }
 
-  cachedConfig = {
+  return {
     defaultBucket:
       process.env.S3_BUCKET ||
       fileConfig.defaultBucket ||
-      "your-default-bucket",
+      PLACEHOLDER_BUCKET,
     region: process.env.AWS_REGION || fileConfig.region || "us-west-2",
     dryRunDefault: fileConfig.dryRunDefault ?? true,
     enableNlpTagging: fileConfig.enableNlpTagging ?? true,
     awsAccessKeyId:
-      fileConfig.awsAccessKeyId || process.env.AWS_ACCESS_KEY_ID || "",
+      process.env.AWS_ACCESS_KEY_ID || fileConfig.awsAccessKeyId || "",
     awsSecretAccessKey:
-      fileConfig.awsSecretAccessKey || process.env.AWS_SECRET_ACCESS_KEY || "",
+      process.env.AWS_SECRET_ACCESS_KEY || fileConfig.awsSecretAccessKey || "",
   };
-
-  return cachedConfig;
 }
 
 export function createConfigFile() {
   const defaultConfig: DockitConfig = {
-    defaultBucket: "your-default-bucket",
+    defaultBucket: PLACEHOLDER_BUCKET,
     region: "us-west-2",
     dryRunDefault: true,
     enableNlpTagging: true,
@@ -58,8 +59,8 @@ export function createConfigFile() {
   };
 
   try {
-    fs.writeFileSync(CONFIG_PATH, JSON.stringify(defaultConfig, null, 2));
-    console.log(`Created default config file at ${CONFIG_PATH}`);
+    fs.writeFileSync(DEFAULT_CONFIG_PATH, JSON.stringify(defaultConfig, null, 2));
+    console.log(`Created default config file at ${DEFAULT_CONFIG_PATH}`);
   } catch (e) {
     console.error(`Failed to create config file: ${e}`);
   }
